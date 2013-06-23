@@ -1,0 +1,9 @@
+{% if member %}
+   <p>Logged In As: {{ member.user.username }}</p>
+   {% for group in groups %}
+      <p>{{ member.user.username }} is a member of
+         <a href="/groups/{{ group.id }}/">{{ group.name }}</a></p>
+   {% endfor %}
+{% else %}
+   Currently not logged in, so log in.
+{% endif %}

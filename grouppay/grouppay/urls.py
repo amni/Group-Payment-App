@@ -6,17 +6,23 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-	 # (r'^groups/(\d{3,4})/$', groups),
-    # (r'^calculator/search/(\d{3,4})/(\d{2,3})/(\d{2,3})/(\d{2,3})/(\d{1,2})/$', appropriate_meal_plan),
-    # Examples:
-    # url(r'^$', 'grouppay.views.home', name='home'),
-    # url(r'^grouppay/', include('grouppay.foo.urls')),
+   url(r'groups/', include('groups.urls')),
 
+<<<<<<< HEAD
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     (r'^accounts/', include('registration.backends.default.urls')),
      url(r'^$', 'grouppay.views.index', name="index"),
+=======
+   # Uncomment the admin/doc line below to enable admin documentation:
+   url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+   (r'^accounts/', include('registration.backends.default.urls')),
+   # Examples:
+   # url(r'^$', 'grouppay.views.home', name='home'),
+   # url(r'^grouppay/', include('grouppay.foo.urls')),
+   # Uncomment the admin/doc line below to enable admin documentation:
+>>>>>>> debeed20c6e7abdf3bebe085d825a67295550aaa
 
-    # Uncomment the next line to enable the admin:
-    url(r'^admin/', include(admin.site.urls)),
+   # Uncomment the next line to enable the admin:
+   url(r'^admin/', include(admin.site.urls)),
 )
