@@ -5,6 +5,8 @@ from django.conf.urls import patterns, include, url
 # admin.autodiscover()
 
 urlpatterns = patterns('',
+	(r'^groups/(\d{3,4})/$', groups),
+    (r'^calculator/search/(\d{3,4})/(\d{2,3})/(\d{2,3})/(\d{2,3})/(\d{1,2})/$', appropriate_meal_plan),
     # Examples:
     # url(r'^$', 'grouppay.views.home', name='home'),
     # url(r'^grouppay/', include('grouppay.foo.urls')),
