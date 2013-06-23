@@ -7,8 +7,13 @@ class Group(models.Model):
    def __unicode__(self):
       return self.name
 
+
+
 class Member(models.Model):
+   # Connect the member model to the user profile
    user = models.OneToOneField('auth.User')
+
+   # Additional member attributes
    groups = models.ManyToManyField(Group)
 
    def __unicode__(self):
@@ -17,6 +22,7 @@ class Member(models.Model):
 class Transaction(models.Model):
    name = models.CharField(max_length=100)
    description = models.TextField()
+   group = models.ForeignKey(Group)
    payer = models.ForeignKey(Member)
    amount = models.FloatField()
    date = models.DateField()
