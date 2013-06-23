@@ -9,7 +9,7 @@ class Group(models.Model):
 
 class Member(models.Model):
    user = models.OneToOneField('auth.User')
-   groups = models.ManyToManyField(Group, through='Group')
+   groups = models.ManyToManyField(Group)
 
    def __unicode__(self):
       return self.user.get_full_name()
