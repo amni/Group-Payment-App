@@ -5,6 +5,15 @@ PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
+ACCOUNT_ACTIVATION_DAYS = 2
+EMAIL_HOST = 'localhost'
+DEFAULT_FROM_EMAIL = 'webmaster@localhost'
+LOGIN_REDIRECT_URL = '/'
+EMAIL_PORT = 1025
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
@@ -14,7 +23,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'grouppay.db',                      # Or path to database file if using sqlite3.
+        'NAME': './grouppay.db',                      # Or path to database file if using sqlite3.
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
@@ -128,7 +137,8 @@ INSTALLED_APPS = (
     'registration',
     'groups',
     'django.contrib.auth',
-    'django.contrib.contenttypes',
+    'django.contrib.contenttypes',  
+    'django.contrib.humanize',
 )
 
 # A sample logging configuration. The only tangible logging
