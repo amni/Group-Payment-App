@@ -1,4 +1,6 @@
 # Django settings for grouppay project.
+import os
+PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -106,6 +108,7 @@ ROOT_URLCONF = 'grouppay.urls'
 WSGI_APPLICATION = 'grouppay.wsgi.application'
 
 TEMPLATE_DIRS = (
+    './grouppay/templates',
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -122,7 +125,6 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
-
     'registration',
     'groups',
     'django.contrib.auth',
