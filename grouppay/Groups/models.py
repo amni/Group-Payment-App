@@ -7,8 +7,6 @@ class Group(models.Model):
    def __unicode__(self):
       return self.name
 
-
-
 class Member(models.Model):
    # Connect the member model to the user profile
    user = models.OneToOneField('auth.User')
