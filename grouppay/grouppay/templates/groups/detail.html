@@ -1,3 +1,6 @@
+{% load staticfiles %}
+<link href="{% static "stylesheets/bootstrap.css" %}" rel="stylesheet" type="text/css">
+
 <p>Logged In As: {{ member.user.username }}</p>
 
 <p>Looking at the Group Page for: {{ group.name }}</p>
