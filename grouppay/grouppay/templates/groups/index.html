@@ -1,7 +1,7 @@
-{% if member %}
-   <p>Logged In As: {{ member.user.username }}</p>
+{% if user.is_authenticated %}
+   <p>Logged In As: {{user.username}}</p>
    {% for group in groups %}
-      <p>{{ member.user.username }} is a member of
+      <p>{{ user.username }} is a member of
          <a href="/groups/{{ group.id }}/">{{ group.name }}</a></p>
    {% endfor %}
 

@@ -20,7 +20,8 @@ def detail(request, group_id):
    try:
       group = Group.objects.get(id=group_id)
       member = Member.objects.get(id=request.user.id)
-      context = {'member': member, 'group': group}
+      transaction= Transaction.objects.get(id=request.user.id)
+      context = {'member': member, 'group': group, 'transactions': transactions(transaction)}
    except Group.DoesNotExist:
       raise Http404
    return render(request, 'groups/detail.html', context)
@@ -41,3 +42,7 @@ def addgroup(request):
    else:
       # TODO: Add some sort of error here. Group name is empty.
       return index(request)
+
+def sumTransactions(transactions):
+   integerList= [int (transaction) for transaction in transactions]
+   return integerList
