@@ -8,4 +8,5 @@ urlpatterns = patterns('',
 
    # /groups/group_id
    url(r'^(?P<group_id>\d+)/$', views.detail, name='detail'),
+   url(r'^addgroup/$', views.addgroup, name='addgroup'),
 )

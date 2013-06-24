@@ -4,6 +4,13 @@
       <p>{{ member.user.username }} is a member of
          <a href="/groups/{{ group.id }}/">{{ group.name }}</a></p>
    {% endfor %}
+
+
+  <form action="/groups/addgroup/" method="post">
+         {% csrf_token %}
+        <p><input type="text" name="groupname"/>
+         <input type="submit" value="Add Group"/></p>
+    </form>
 {% else %}
    Currently not logged in, so log in.
 {% endif %}

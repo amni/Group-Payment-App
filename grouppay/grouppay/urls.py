@@ -6,23 +6,21 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-   url(r'groups/', include('groups.urls')),
+    url(r'groups/', include('groups.urls', namespace="groups")),
 
-<<<<<<< HEAD
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     (r'^accounts/', include('registration.backends.default.urls')),
-     url(r'^$', 'grouppay.views.index', name="index"),
-=======
-   # Uncomment the admin/doc line below to enable admin documentation:
-   url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-   (r'^accounts/', include('registration.backends.default.urls')),
-   # Examples:
-   # url(r'^$', 'grouppay.views.home', name='home'),
-   # url(r'^grouppay/', include('grouppay.foo.urls')),
-   # Uncomment the admin/doc line below to enable admin documentation:
->>>>>>> debeed20c6e7abdf3bebe085d825a67295550aaa
+    url(r'^$', 'grouppay.views.index', name="index"),
 
-   # Uncomment the next line to enable the admin:
-   url(r'^admin/', include(admin.site.urls)),
-)
+    # Uncomment the admin/doc line below to enable admin documentation:
+    url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    (r'^accounts/', include('registration.backends.default.urls')),
+    # Examples:
+    # url(r'^$', 'grouppay.views.home', name='home'),
+    # url(r'^grouppay/', include('grouppay.foo.urls')),
+    # Uncomment the admin/doc line below to enable admin documentation:
+
+    # Uncomment the next line to enable the admin:
+    url(r'^admin/', include(admin.site.urls)),
+    )
