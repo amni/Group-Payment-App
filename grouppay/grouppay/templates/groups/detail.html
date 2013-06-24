@@ -1,12 +1,33 @@
+{% load staticfiles %}
+<link href="{% static "stylesheets/bootstrap.css" %}" rel="stylesheet" type="text/css">
+
 <p>Logged In As: {{ member.user.username }}</p>
 
 <p>Looking at the Group Page for: {{ group.name }}</p>
 
-
 <div> Group Members </div>
-{{% for user in users %}}
-	<div> {{user}} </div>
+{% for member in group_members %}
+	<div> {{ member.user.username }} </div>
+{% endfor %}
+</div>
 
-<div> Total Transactions: {{transaction}}</div>
+<!-- TODO: FIX THIS SO TOTAL NUMBER ACTUALLY SHOWS -->
+<div> Total Transactions: {{ transactions_count }}</div>
+
+<div> List of the Transactions: </div>
+{% for transaction in transactions %}
+   <p><div>Name: {{ transaction.name }}</div>
+   <div>Description: {{ transaction.description }}</div>
+   <div>Amount Paid: {{ transaction.amount }}</div>
+   <div>Paid By: {{ transaction.payer.user.username }}</div></p>
+{% endfor %}
 
 
+<!-- FORM TO ADD A TRANSACTION - ASSUMES YOU ARE PAYER -->
+  <form action="/groups/{{ group.id }}/addtransaction/" method="post">
+         {% csrf_token %}
+         <p>Name: <input type="text" name="name"/></p>
+         <p>Description: <input type="text" name="description"/></p>
+         <p>Amount: <input type="number" min="0" name="amount" step="any"/></p>
+         <p><input type="submit" value="Add Transaction"/></p>
+    </form>

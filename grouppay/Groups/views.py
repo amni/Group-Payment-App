@@ -2,7 +2,10 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.http import Http404
 
+import datetime
+
 from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User
 
 from groups.models import Member, Group, Transaction
 
@@ -20,8 +23,11 @@ def detail(request, group_id):
    try:
       group = Group.objects.get(id=group_id)
       member = Member.objects.get(id=request.user.id)
-      transaction= Transaction.objects.get(id=request.user.id)
-      context = {'member': member, 'group': group, 'transactions': transactions(transaction)}
+      group_members = Member.objects.filter(groups=Group.objects.get(id=group_id))
+      transactions = Transaction.objects.filter(group=Group.objects.get(id=group_id))
+      context = {'member': member, 'group': group,
+      'group_members': group_members, 'transactions': transactions,
+      'transactions_count': len(transactions)}
    except Group.DoesNotExist:
       raise Http404
    return render(request, 'groups/detail.html', context)
@@ -35,6 +41,7 @@ def addgroup(request):
       group.save()
 
       # Add the current user to the group
+      # TODO: Change this. user_id != member_id
       member = Member.objects.get(id=request.user.id)
       member.groups.add(group)
 
@@ -42,6 +49,23 @@ def addgroup(request):
    else:
       # TODO: Add some sort of error here. Group name is empty.
       return index(request)
+
+# TODO: Add checks on the incoming values.
+# TODO: Try/Catch block?
+def addTransaction(request, group_id):
+   post = request.POST
+   name = post['name']
+   description = post['description']
+   group = Group.objects.get(id=group_id)
+   payer = Member.objects.get(user=User.objects.get(id=request.user.id))
+   amount = post['amount']
+   date = datetime.datetime.now()
+
+   transaction = Transaction(name=name, description=description, group=group,
+      payer=payer, amount=amount, date=date)
+   transaction.save()
+
+   return detail(request, group_id)
 
 def sumTransactions(transactions):
    integerList= [int (transaction) for transaction in transactions]

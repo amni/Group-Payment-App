@@ -1,3 +1,6 @@
+{% load staticfiles %}
+<link href="{% static "stylesheets/bootstrap.css" %}" rel="stylesheet" type="text/css">
+
 {% if user.is_authenticated %}
    <p>Logged In As: {{user.username}}</p>
    {% for group in groups %}
