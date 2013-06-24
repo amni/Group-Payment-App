@@ -41,8 +41,8 @@ def addgroup(request):
       group.save()
 
       # Add the current user to the group
-      # TODO: Change this. user_id != member_id
-      member = Member.objects.get(id=request.user.id)
+      # Make sure to use user instead of id b/c not equal
+      member = Member.objects.get(user=User.objects.get(id=request.user.id))
       member.groups.add(group)
 
       return detail(request, group.id)
