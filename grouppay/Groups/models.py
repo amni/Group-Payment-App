@@ -1,4 +1,9 @@
 from django.db import models
+from registration.signals import user_registered
+from django.contrib.auth.models import User
+from django.dispatch import receiver
+
+
 
 # Create your models here.
 class Group(models.Model):
@@ -18,6 +23,13 @@ class Member(models.Model):
 
    def __unicode__(self):
       return self.user.get_full_name()
+
+
+@receiver(user_registered)
+def createMember(sender, user, request, **kwargs):
+   print user
+   member= Member(user=user)
+   member.save()
 
 class Transaction(models.Model):
    name = models.CharField(max_length=100)
