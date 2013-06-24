@@ -11,6 +11,14 @@
 {% endfor %}
 </div>
 
+<!-- FORM TO ADD A GROUP MEMBER TO THE GROUP -->
+<form action="/groups/{{ group.id }}/addmember/" method="post">
+  {% csrf_token %}
+  <p>Email: <input type="text" name="email"/></p>
+  <p>Username: <input type="text" name="username"/></p>
+  <p><input type="submit" value="Add Member"/></p>
+</form>
+
 <!-- TODO: FIX THIS SO TOTAL NUMBER ACTUALLY SHOWS -->
 <div> Total Transactions: {{ transactions_count }}</div>
 

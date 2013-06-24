@@ -67,6 +67,10 @@ def addTransaction(request, group_id):
 
    return detail(request, group_id)
 
+def addMember(request, group_id):
+   # TODO: FILL THIS IN
+   return detail(request, group_id)
+
 def sumTransactions(transactions):
    integerList= [int (transaction) for transaction in transactions]
    return integerList
