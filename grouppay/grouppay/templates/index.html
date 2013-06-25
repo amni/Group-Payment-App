@@ -1,5 +1,19 @@
-{% load staticfiles %}
-<link href="{% static "stylesheets/bootstrap.css" %}" rel="stylesheet" type="text/css">
+{% include "base.html" %}
 
-Our Home Page
+{% load staticfiles %}
+<link href="{% static "stylesheets/home.css" %}" rel="stylesheet" type="text/css">
+
+<title>Payper.io</title>
+
+<div class="maxwidth container">
+   <div class="jumbotron maxwidth">
+      <div class="appname">Payper</div>
+      <div class="catchphrase lead">Financial tracking for groups of individuals</div>
+      <div class="actions">
+         <button class="btn btn-large btn-success" type="button">Register</button>
+         <a class="signin" href="">Sign In</a>
+      </div>
+   </div>
+</div>
+
 

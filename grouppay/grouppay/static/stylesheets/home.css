@@ -1,0 +1,45 @@
+.maxwidth {
+   width: 100%;
+}
+
+.jumbotron {
+   background: #445859;
+   height: 465px;
+   width: 100%;
+}
+
+.appname {
+   font-size: 200px;
+   text-align: center;
+   padding-top: 150px;
+   color: #F1F2E4;
+}
+
+.catchphrase {
+   padding-top: 125px;
+   font-size: 30px;
+   color: #F1F2E4;
+   text-align: center;
+}
+
+.actions {
+   margin: 0 auto;
+   width: 205px;
+}
+
+.actions .btn {
+   width: 130px;
+   height: 50px;
+}
+
+.signin {
+   font-size: 20;
+   color: #F1F2E4;
+   padding-left: 10px;
+   vertical-align: middle;
+}
+
+/* Fill this in because mouse over is ugly */
+.signin:hover {
+
+}
