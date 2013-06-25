@@ -12,11 +12,16 @@
 </div>
 
 <!-- FORM TO ADD A GROUP MEMBER TO THE GROUP -->
-<form action="/groups/{{ group.id }}/addmember/" method="post">
+<form action="/groups/{{ group.id }}/addmember/email/" method="post">
   {% csrf_token %}
   <p>Email: <input type="text" name="email"/></p>
+  <p><input type="submit" value="Add Member by Email"/></p>
+</form>
+
+<form action="/groups/{{ group.id }}/addmember/username/" method="post">
+  {% csrf_token %}
   <p>Username: <input type="text" name="username"/></p>
-  <p><input type="submit" value="Add Member"/></p>
+  <p><input type="submit" value="Add Member by Username"/></p>
 </form>
 
 <!-- TODO: FIX THIS SO TOTAL NUMBER ACTUALLY SHOWS -->
