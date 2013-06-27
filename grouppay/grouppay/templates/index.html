@@ -11,9 +11,17 @@
       <div class="catchphrase lead">Financial tracking for groups of individuals</div>
       <div class="actions">
          <button class="btn btn-large btn-info" type="button">Register</button>
-         <a class="signin" href="">Sign In</a>
+         <a href="#login_form" id="login_pop" class="signin">Sign In</a>
       </div>
    </div>
+
+   <!-- Sign In Modal HTML SHIT -->
+   <link href="{% static "stylesheets/modal.css" %}" rel="stylesheet" type="text/css">
+   <a href="#x" class="overlay" id="login_form"></a>
+   <div class="popup">
+      {% include "registration/login.html" %}
+   </div>
+
 
    <div class="container">
       <div class="row info">
