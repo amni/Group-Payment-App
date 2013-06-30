@@ -2,9 +2,9 @@
 <link href="{% static "stylesheets/bootstrap.css" %}" rel="stylesheet" type="text/css">
 
 {% if user.is_authenticated %}
-   <p>Logged In As: {{user.username}}</p>
+   <p>Logged In As: {{member.user.username}}</p>
    {% for group in groups %}
-      <p>{{ user.username }} is a member of
+      <p>{{ member.user.username }} is a member of
          <a href="/groups/{{ group.id }}/">{{ group.name }}</a></p>
    {% endfor %}
 

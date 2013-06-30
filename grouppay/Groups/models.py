@@ -34,7 +34,7 @@ class Transaction(models.Model):
    description = models.TextField()
    group = models.ForeignKey(Group)
    payer = models.ForeignKey(Member)
-   amount = models.FloatField()
+   amount= models.DecimalField(max_digits=8, decimal_places=2)
    date = models.DateField()
 
    def __unicode__(self):

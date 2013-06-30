@@ -6,7 +6,7 @@ import datetime
 
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
-
+import pdb
 from groups.models import Member, Group, Transaction
 
 import pdb;
@@ -25,9 +25,13 @@ def detail(request, group_id):
       member = Member.objects.get(id=request.user.id)
       group_members = Member.objects.filter(groups=Group.objects.get(id=group_id))
       transactions = Transaction.objects.filter(group=Group.objects.get(id=group_id))
+      member_balances={}
+      transaction_total= calculateTransactions(transactions, group_members, member_balances)
+      print (transaction_total)
+      print (member_balances)
       context = {'member': member, 'group': group,
       'group_members': group_members, 'transactions': transactions,
-      'transactions_count': len(transactions)}
+      'transactions_count': len(transactions), 'member_balances':member_balances}
    except Group.DoesNotExist:
       raise Http404
    return render(request, 'groups/detail.html', context)
@@ -58,7 +62,8 @@ def addTransaction(request, group_id):
    description = post['description']
    group = Group.objects.get(id=group_id)
    payer = Member.objects.get(user=User.objects.get(id=request.user.id))
-   amount = post['amount']
+   amount = '%.2f' % (float(post['amount']))
+   print amount 
    date = datetime.datetime.now()
 
    transaction = Transaction(name=name, description=description, group=group,
@@ -68,13 +73,34 @@ def addTransaction(request, group_id):
    return detail(request, group_id)
 
 def addMember_email(request, group_id):
-   # TODO: FILL THIS IN
+   #Adds user if email corresponds to a user in the database
+   if (User.objects.get(email=request.user.email)):
+      post = request.POST 
+      email = post ['email']
+      group = Group.objects.get(id=group_id)
+      member= Member.objects.get(user=User.objects.get(email=email))
+      member.groups.add(group)
+   #TODO: add error message
+   else:
+      pass
    return detail(request, group_id)
 
 def addMember_username(request, group_id):
-   # TODO: FILL THIS IN
+   #Adds user if username corresponds to a user in the database
+   if (User.objects.get(username=request.user.username)):
+      post = request.POST 
+      username = post ['username']
+      group = Group.objects.get(id=group_id)
+      member= Member.objects.get(user=User.objects.get(username=username))
+      member.groups.add(group)
+   #TODO: add error message
+   else:
+      pass
    return detail(request, group_id)
 
-def sumTransactions(transactions):
-   integerList= [int (transaction) for transaction in transactions]
-   return integerList
+def calculateTransactions(transactions, group_members, member_balances):
+   #TODO: Rewrite this so that it only iterates through transaction once, instead of once for every member 
+   total_transactions= sum([transaction.amount for transaction in transactions])
+   for member in group_members:
+      member_balances[member]= total_transactions/len(group_members)-sum([transaction.amount for transaction in transactions if transaction.payer==member])
+   return total_transactions
