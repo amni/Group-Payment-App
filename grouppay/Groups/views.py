@@ -74,27 +74,25 @@ def addTransaction(request, group_id):
 
 def addMember_email(request, group_id):
    #Adds user if email corresponds to a user in the database
-   if (User.objects.get(email=request.user.email)):
+   try:
       post = request.POST 
       email = post ['email']
       group = Group.objects.get(id=group_id)
       member= Member.objects.get(user=User.objects.get(email=email))
       member.groups.add(group)
-   #TODO: add error message
-   else:
+   except User.DoesNotExist:
       pass
    return detail(request, group_id)
 
 def addMember_username(request, group_id):
    #Adds user if username corresponds to a user in the database
-   if (User.objects.get(username=request.user.username)):
+   try:
       post = request.POST 
       username = post ['username']
       group = Group.objects.get(id=group_id)
       member= Member.objects.get(user=User.objects.get(username=username))
       member.groups.add(group)
-   #TODO: add error message
-   else:
+   except User.DoesNotExist:
       pass
    return detail(request, group_id)
 
@@ -104,3 +102,6 @@ def calculateTransactions(transactions, group_members, member_balances):
    for member in group_members:
       member_balances[member]= total_transactions/len(group_members)-sum([transaction.amount for transaction in transactions if transaction.payer==member])
    return total_transactions
+
+def quickAddTransaction(request):
+   #TODO: allow user to automatically create a group based on expense 
