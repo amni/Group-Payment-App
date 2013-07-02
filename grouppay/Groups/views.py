@@ -63,7 +63,7 @@ def addTransaction(request, group_id):
    group = Group.objects.get(id=group_id)
    payer = Member.objects.get(user=User.objects.get(id=request.user.id))
    amount = '%.2f' % (float(post['amount']))
-   print amount 
+   print amount
    date = datetime.datetime.now()
 
    transaction = Transaction(name=name, description=description, group=group,
@@ -75,7 +75,7 @@ def addTransaction(request, group_id):
 def addMember_email(request, group_id):
    #Adds user if email corresponds to a user in the database
    try:
-      post = request.POST 
+      post = request.POST
       email = post ['email']
       group = Group.objects.get(id=group_id)
       member= Member.objects.get(user=User.objects.get(email=email))
@@ -87,7 +87,7 @@ def addMember_email(request, group_id):
 def addMember_username(request, group_id):
    #Adds user if username corresponds to a user in the database
    try:
-      post = request.POST 
+      post = request.POST
       username = post ['username']
       group = Group.objects.get(id=group_id)
       member= Member.objects.get(user=User.objects.get(username=username))
@@ -97,11 +97,12 @@ def addMember_username(request, group_id):
    return detail(request, group_id)
 
 def calculateTransactions(transactions, group_members, member_balances):
-   #TODO: Rewrite this so that it only iterates through transaction once, instead of once for every member 
+   #TODO: Rewrite this so that it only iterates through transaction once, instead of once for every member
    total_transactions= sum([transaction.amount for transaction in transactions])
    for member in group_members:
       member_balances[member]= total_transactions/len(group_members)-sum([transaction.amount for transaction in transactions if transaction.payer==member])
    return total_transactions
 
 def quickAddTransaction(request):
-   #TODO: allow user to automatically create a group based on expense 
+   #TODO: allow user to automatically create a group based on expense
+   return null

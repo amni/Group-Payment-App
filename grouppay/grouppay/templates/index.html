@@ -7,21 +7,16 @@
 
 <div class="maxwidth container">
    <div class="jumbotron maxwidth">
-      <div class="appname">Payper</div>
-      <div class="catchphrase lead">Financial tracking for groups of individuals</div>
-      <div class="actions">
-         <button class="btn btn-large btn-info" type="button">Register</button>
-         <a href="#login_form" id="login_pop" class="signin">Sign In</a>
+      <div id="base">
+         <div class="appname">Payper</div>
+         <div class="catchphrase lead">Financial tracking for groups of individuals</div>
+         <div class="actions">
+            <a href="accounts/register"><button id="register" class="btn btn-large btn-info" type="button">Register</button></a>
+            <a id="login_pop" class="signin">Sign In</a>
+         </div>
       </div>
-   </div>
 
-   <!-- Sign In Modal HTML SHIT -->
-   <link href="{% static "stylesheets/modal.css" %}" rel="stylesheet" type="text/css">
-   <a href="#x" class="overlay" id="login_form"></a>
-   <div class="popup">
-      {% include "registration/login.html" %}
    </div>
-
 
    <div class="container">
       <div class="row info">
@@ -40,30 +35,7 @@
       </div>
    </div>
 
-   <div class="footer">
-      <div class="container">
-         <div class="row">
-            <div class="offset2 span4">
-               <p class="name lead">Alan Ni</p>
-               <div class="icons">
-                  <img class="icon" src="{% static "images/icons/glyphicons_411_twitter.png" %}">
-                  <img class="icon" src="{% static "images/icons/glyphicons_401_github.png" %}">
-                  <img class="icon" src="{% static "images/icons/glyphicons_419_e-mail.png" %}">
-                  <img class="icon" src="{% static "images/icons/glyphicons_397_linked_in.png" %}">
-               </div>
-            </div>
-            <div class="span4">
-               <p class="name lead">Matthew Ebeweber</p>
-               <div class="icons">
-                  <img class="icon" src="{% static "images/icons/glyphicons_411_twitter.png" %}">
-                  <img class="icon" src="{% static "images/icons/glyphicons_401_github.png" %}">
-                  <img class="icon" src="{% static "images/icons/glyphicons_419_e-mail.png" %}">
-                  <img class="icon" src="{% static "images/icons/glyphicons_397_linked_in.png" %}">
-               </div>
-            </div>
-         </div>
-      </div>
-   </div>
+{% include "footer.html" %}
 </div>
 
 

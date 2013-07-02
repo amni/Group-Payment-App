@@ -1,0 +1,57 @@
+div.container.registration {
+   background-color: #445859;
+}
+
+h1.banner {
+   padding-top: 58px;
+   padding-bottom: 35px;
+   text-align: center;
+   font-size: 65px;
+   color: #F1F2E4;
+}
+
+label {
+   text-align: right;
+   width: 250px;
+   color: #F1F2E4;
+   font-size: 28px;
+   margin: 10px 10px;
+}
+
+.big-alert {
+   padding: 0px;
+   margin-left: 20px;
+   margin-right: 20px;
+   padding: 10px;
+}
+
+table.reg-table {
+   margin: auto;
+}
+
+table.reg-table input {
+   height: 28px;
+   margin-top: 10px;
+}
+
+.little-warn {
+   padding-top: 5px;
+   padding-bottom: 0px;
+   width: 158px;
+   margin: auto;
+   opacity: .7;
+   font-size: 13px
+}
+
+p.submit input {
+   height: 60px;
+   width: 160px;
+   font-size: 30px;
+   margin: auto;
+   margin-top: 15px;
+   float: right;
+}
+
+.container {
+   height: 100%;
+}
