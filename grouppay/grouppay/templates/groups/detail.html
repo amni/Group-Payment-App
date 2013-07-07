@@ -1,16 +1,22 @@
 {% load staticfiles %}
 <link href="{% static "stylesheets/bootstrap.css" %}" rel="stylesheet" type="text/css">
 
+
+
 <p>Logged In As: {{ member.user.username }}</p>
 
-<p>Looking at the Group Page for: {{ group.name }}</p>
+<!-- <p>Looking at the Group Page for: {{ group.name }}</p>
 
 <div> Group Members </div>
 {% for member, balance in member_balances.items %}
 	<div> {{ member.user.username }}'s balance: ${{balance}} </div>
 {% endfor %}
-</div>
+</div> -->
 
+
+<input type="radio" name="transactionType" value="us" checked="checked" onclick="javascript:checkMeasuringSystem();"> Group Payments
+
+<input type="radio" name="transactionType" value="metric" onclick="javascript:checkMeasuringSystem();"> Individual Transactions<br><br>
 <!-- FORM TO ADD A GROUP MEMBER TO THE GROUP -->
 <form action="/groups/{{ group.id }}/addmember/email/" method="post">
   {% csrf_token %}
@@ -24,8 +30,23 @@
   <p><input type="submit" value="Add Member by Username"/></p>
 </form>
 
-<!-- TODO: FIX THIS SO TOTAL NUMBER ACTUALLY SHOWS -->
-<div> Total Transactions: {{ transactions_count }}</div>
+
+<form action="/groups/{{ group.id }}/addtransaction/" method="post">
+         {% csrf_token %}
+         <p>Who Owes Me: <input type="text" name="borrower"</p>  
+         <p>For What: <input type="text" name="description"/></p>
+         <p>Amount: <input type="text" name="amount" pattern="^((\d+)|(\d{1,3})(\,\d{3}|)*)(\.\d{2}|)$"/></p>
+
+         <p><input type="submit" value="Add Transaction"/></p>
+</form>
+
+<form action="/groups/{{ group.id }}/addtransaction/" method="post">
+         {% csrf_token %}
+         <p>I owe: <input type="text" name="borrower"</p>  
+         <p>For What: <input type="text" name="description"/></p>
+         <p>Amount: <input type="text" name="amount" pattern="^((\d+)|(\d{1,3})(\,\d{3}|)*)(\.\d{2}|)$"/></p>
+         <p><input type="submit" value="Add Transaction"/></p>
+</form>
 
 <div> List of the Transactions: </div>
 {% for transaction in transactions %}
@@ -33,6 +54,12 @@
    <div>Description: {{ transaction.description }}</div>
    <div>Amount Paid: {{ transaction.amount }}</div>
    <div>Paid By: {{ transaction.payer.user.username }}</div></p>
+{% endfor %}
+
+<div> Users that owe me: </div>
+
+{% for friend in friends %}
+<div> {{friend.name}} : {{friend.amount}}</div>
 {% endfor %}
 
 

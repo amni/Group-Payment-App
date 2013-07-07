@@ -1,23 +1,45 @@
 {% extends "registration/base.html" %}
 
-{% block title %}Log in{% endblock %}
+{% block title %}Login | Payper.io{% endblock %}
 
+{% block content_title %} Log In {% endblock %}
 {% block content %}
 
-<h1>Log in</h1>
-
 {% if form.errors %}
-<p class="error">Please correct the errors below:</p>
 {% endif %}
 
+
 <form method="post" action="?next={{ next|default:"/" }}">{% csrf_token %}
-<dl>
-<dt><label for="id_username">Username:</label>{% if form.username.errors %} <span class="error">{{ form.username.errors|join:", " }}</span>{% endif %}</dt>
-<dd>{{ form.username }}</dd>
-<dt><label for="id_password">Password:</label>{% if form.password.errors %} <span class="error">{{ form.password.errors|join:", " }}</span>{% endif %}</dt>
-<dd>{{ form.password }}</dd>
-<dt><input type="submit" value="Log in" /></dt>
-</dl>
+<table class="reg-table">
+      <tr>
+        <td></td>
+        <td>
+          {% if form.username.errors %}
+          <div class="little-warn alert alert-error">{{ form.username.errors|join:", " }}</div>{% endif %}
+      </tr>
+      <td>
+      	  <label for="id_username">Username:</label>
+      </td>
+      <td>{{ form.username }}
+      </td>
+      <tr>
+        <td></td>
+        <td>
+          {% if form.password.errors %}
+          <div class="little-warn alert alert-error">{{ form.password.errors|join:", " }}</div>{% endif %}
+      </tr>
+      <td>
+      	  <label for="id_username">Password:</label>
+      </td>
+      <td>{{ form.password}}
+      </td>
+      <tr>
+        <td></td>
+        <td>
+          <p class="submit"><input class="lead btn btn-info" type="submit" value="Log In"></p>
+        </td>
+      </tr>
+  </table>
 </form>
 {% endblock %}
 

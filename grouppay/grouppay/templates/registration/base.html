@@ -1,3 +1,4 @@
+{% include "base.html" %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -7,17 +8,27 @@
         border: 2px solid red;
       }
     </style>
-    <title>{% block title %}Tagging Exploration{% endblock %}</title>
 </head>
+{% load staticfiles %}
+<link href="{% static "stylesheets/registration.css" %}" rel="stylesheet" type="text/css">
 
-<body>
-    <div id="sidebar">
-        {% block sidebar %}{% endblock %}
-    </div>
+<title>{% block title %} {% endblock %}</title>
 
-    <div id="content">
-        {% block content %}{% endblock %}
-        {% block main_content %}{% endblock %}
+<div class="container registration">
+  <h1 class="banner">{% block content_title %} {% endblock %} </h1>
+
+  {% if form.errors %}
+    <div class="big-alert alert alert-error">
+      <p class="errors">Please correct the errors below: {{ form.non_field_errors }}</p>
     </div>
-</body>
+  {% endif %}
+
+
+
+    {% block content %} {% endblock %}
+          
+</div>
+  {% include "footer.html" %}
+
 </html>
+

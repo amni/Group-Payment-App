@@ -1,21 +1,10 @@
-{% include "base.html" %}
+{% extends "registration/base.html" %}
 
-{% load staticfiles %}
-<link href="{% static "stylesheets/registration.css" %}" rel="stylesheet" type="text/css">
+{% block title %}Register | Payper.io{% endblock %}
 
-<title>Register | Payper.io</title>
+{% block content_title %}Register for Payper{% endblock %}
 
-<div class="container registration">
-
-  <h1 class="banner">Register for Payper</h1>
-
-  {% if form.errors %}
-    <div class="big-alert alert alert-error">
-      <p class="errors">Please correct the errors below: {{ form.non_field_errors }}</p>
-    </div>
-  {% endif %}
-
-
+{% block content %} 
   <form method="post" action="" class="wide">
 	{% csrf_token %}
     <table class="reg-table">
@@ -104,5 +93,4 @@
       </tr>
   </table>
   </form>
-</div>
-  {% include "footer.html" %}
+{% endblock %}

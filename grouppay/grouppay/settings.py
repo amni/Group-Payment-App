@@ -143,6 +143,8 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'registration',
     'groups',
+    'members',
+    'transactions',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.humanize',

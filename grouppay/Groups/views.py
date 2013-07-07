@@ -6,10 +6,17 @@ import datetime
 
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from groups.models import Group
+from members.models import Member, Non_Registered_Member
+from transactions.models import IndividualTransaction, GroupTransaction
 import pdb
-from groups.models import Member, Group, Transaction
 
-import pdb;
+def friend_present(name):
+    if Non_Registered_Member.objects.filter(name=name).count():
+        return True
+    
+    return False
+
 def index(request):
    try:
       member = Member.objects.get(id=request.user.id)
@@ -24,14 +31,15 @@ def detail(request, group_id):
       group = Group.objects.get(id=group_id)
       member = Member.objects.get(id=request.user.id)
       group_members = Member.objects.filter(groups=Group.objects.get(id=group_id))
-      transactions = Transaction.objects.filter(group=Group.objects.get(id=group_id))
+      transactions = GroupTransaction.objects.filter(group=Group.objects.get(id=group_id))
+      friends= Non_Registered_Member.objects.filter(connection=member)
       member_balances={}
       transaction_total= calculateTransactions(transactions, group_members, member_balances)
       print (transaction_total)
       print (member_balances)
       context = {'member': member, 'group': group,
       'group_members': group_members, 'transactions': transactions,
-      'transactions_count': len(transactions), 'member_balances':member_balances}
+      'transactions_count': len(transactions), 'member_balances':member_balances, 'friends':friends}
    except Group.DoesNotExist:
       raise Http404
    return render(request, 'groups/detail.html', context)
@@ -58,16 +66,21 @@ def addgroup(request):
 # TODO: Try/Catch block?
 def addTransaction(request, group_id):
    post = request.POST
-   name = post['name']
+   friend_name = post['borrower']
    description = post['description']
    group = Group.objects.get(id=group_id)
    payer = Member.objects.get(user=User.objects.get(id=request.user.id))
    amount = '%.2f' % (float(post['amount']))
-   print amount
    date = datetime.datetime.now()
-
-   transaction = Transaction(name=name, description=description, group=group,
-      payer=payer, amount=amount, date=date)
+   if not (friend_present(friend_name)):
+      print ("present")
+      nonregfriend= Non_Registered_Member(name=friend_name, connection=payer, amount=0)
+      nonregfriend.save()
+   nonregfriend=Non_Registered_Member.objects.get(name=friend_name, connection=payer)
+   nonregfriend.amount=float(nonregfriend.amount)- float(amount)   
+   nonregfriend.save()
+   transaction = Transaction(name= nonregfriend.name, description=description, group=group,
+      payer=payer,amount=amount, date=date)
    transaction.save()
 
    return detail(request, group_id)
@@ -103,6 +116,3 @@ def calculateTransactions(transactions, group_members, member_balances):
       member_balances[member]= total_transactions/len(group_members)-sum([transaction.amount for transaction in transactions if transaction.payer==member])
    return total_transactions
 
-def quickAddTransaction(request):
-   #TODO: allow user to automatically create a group based on expense
-   return null
