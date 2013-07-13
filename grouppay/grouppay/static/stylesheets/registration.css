@@ -55,3 +55,10 @@ p.submit input {
 .container {
    height: 100%;
 }
+
+p.additional-info {
+   text-align: center;
+   padding: 0px 130px;
+   font-size: 25px;
+   color: #F1F2E4;
+}
