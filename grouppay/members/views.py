@@ -23,15 +23,6 @@ def friend_present(name):
     return False
 
 def index(request):
-   try:
-      member = Member.objects.get(user=User(id=request.user.id))
-      groups = member.groups.all()
-      context = {'member' : member, 'groups': groups}
-   except Member.DoesNotExist:
-      context = {}
-   return render(request, 'members/index.html', context)
-
-def detail(request, member_id):
    member = Member.objects.get(user=User(id=request.user.id))
    friends= Non_Registered_Member.objects.filter(connection=member)
    friend_names= [friend.name for friend in friends]
@@ -40,7 +31,8 @@ def detail(request, member_id):
    json_data= simplejson.dumps(friend_names, indent=4)
    print json_data
    context = {'member': member, 'friends_who_owe':friends_who_owe, 'friends_who_lent': friends_who_lent, 'friend_names':json_data}
-   return render(request, 'members/detail.html', context)
+   return render(request, 'members/index.html', context)
+
 
 def addgroup(request):
    if 'groupname' in request.POST:

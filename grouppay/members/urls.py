@@ -9,7 +9,6 @@ urlpatterns = patterns('',
    url(r'^$', views.index, name='index'),
 
    # /groups/group_id
-   url(r'^(?P<member_id>\d+)/$', views.detail, name='detail'),
    url(r'^addgroup/$', views.addgroup, name='addgroup'),
    url(r'^(?P<member_id>\d+)/addtransaction/(?P<loaning>\d+)', views.addTransaction, name='addTransaction')
    )
