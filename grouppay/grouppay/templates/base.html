@@ -15,10 +15,17 @@
    	<div class="container">
          <a class="brand" href="/">Payper.io</a>
          <!-- Add username dropdown with option to logout, or login button -->
+      {% if user.is_authenticated %}
       <div style="display: inline-block;" class="pull-right">
      	 <a class="brand" href="/members">My Profile</a> 
          <a class="brand" href="/accounts/logout">Logout</a>
       </div>
+      {%else %}
+      <div style="display: inline-block;" class="pull-right">
+     	 <a class="brand" href="/accounts/login">Sign In</a> 
+         <a class="brand" href="/accounts/register">Register</a>
+      </div>
+      {% endif %}
     </div>
    </div>
 </div>

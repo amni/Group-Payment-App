@@ -114,8 +114,3 @@ def calculateFriendBalance(friend, loaning, amount):
    else: 
       friend.amount=float(friend.amount)+float(amount)
    friend.save()
-   transaction = IndividualTransaction(name= friend.name, description=description,
-      amount=amount, date=date)
-   transaction.save()
-
-   return index(request)

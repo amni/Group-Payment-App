@@ -36,8 +36,6 @@ def detail(request, group_id):
       friends= Non_Registered_Member.objects.filter(connection=member)
       member_balances={}
       transaction_total= calculateTransactions(transactions, group_members, member_balances)
-      print (transaction_total)
-      print (member_balances)
       context = {'member': member, 'group': group,
       'group_members': group_members, 'transactions': transactions,
       'transactions_count': len(transactions), 'member_balances':member_balances, 'friends':friends}
