@@ -17,20 +17,38 @@ from transactions.models import IndividualTransaction
 
 
 def friend_present(name):
-    if Non_Registered_Member.objects.filter(name=name).count():
-        return True
+   if Non_Registered_Member.objects.filter(name=name).count():
+      return True
     
-    return False
+   return False
 
 def index(request):
    member = Member.objects.get(user=User(id=request.user.id))
    friends= Non_Registered_Member.objects.filter(connection=member)
    friend_names= [friend.name for friend in friends]
-   friends_who_owe= [friend for friend in friends if friend.amount<0]
-   friends_who_lent= [friend for friend in friends if friend.amount>0]
+   friends_who_owe= [friend for friend in friends if friend.amount < 0]
+   friends_who_lent= [friend for friend in friends if friend.amount > 0]
    json_data= simplejson.dumps(friend_names, indent=4)
-   print json_data
-   context = {'member': member, 'friends_who_owe':friends_who_owe, 'friends_who_lent': friends_who_lent, 'friend_names':json_data}
+
+   balance = 0
+   owe = 0
+   owe_count = 0
+   lent = 0
+   lent_count = 0
+
+   for friend in friends:
+      balance += friend.amount
+      if friend.amount > 0:
+         lent_count = lent_count + 1
+         lent += friend.amount
+      else:
+         owe_count = owe_count + 1
+         owe -= friend.amount
+
+   print balance
+   context = {'member': member, 'friends_who_owe':friends_who_owe,
+    'friends_who_lent': friends_who_lent, 'friend_names':json_data, 'balance': balance,
+    'lent': lent, 'owe': owe, 'lent_count': lent_count, 'owe_count': owe_count}
    return render(request, 'members/index.html', context)
 
 
@@ -74,4 +92,4 @@ def addTransaction(request, member_id, loaning):
       amount=amount, date=date)
    transaction.save()
 
-   return detail(request, member_id)
+   return index(request)

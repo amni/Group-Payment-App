@@ -1,9 +1,15 @@
+{% extends "content_base.html" %} 
+
 {% load staticfiles %}
-<head>
-<link href="{% static "stylesheets/bootstrap.css" %}" rel="stylesheet" type="text/css">
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+
+<!-- NEED TO FIGURE OUT THE BEST WAY TO HANDLE ALL THESE SCRIPTS -->
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+
 <script>
   $(function() {
     var availableTags = {{friend_names|safe}}
@@ -15,10 +21,69 @@
   </script>
 </head>
 
+<!-- DISPLAY THE USER'S CURRENT BALANCE -->
+{% if balance < 0 %}
+    <div class="lead balance">Balance: {{ balance }}</div>
+    <div class="overall">Overall, people owe you {{ balance }}</div>
+{% else %}
+    <div class="lead balance negative">Balance: {{ balance }}</div>
+    <div class="overall negative">Overall, you owe people {{ balance }}</div>
+{% endif %}
 
-<p>Logged In As: {{ member.user.username }}</p>
+
+<!-- A TABLE THAT DISPLAYS THOSE WHO OWE YOU MONEY. AND
+        THOSE THAT YOU OWE MONEY TO -->
+<div class="row">
+    <div class="offset1 span4">
+        <div class="table-header success">{{ owe_count }} people owe(s) you {{ owe }}</div>
+        <table class="owe-table table table-hover">
+            <tr class="success">
+                <td>Person</td>
+                <td>Amount</td>    
+            </tr>
+            {% for friend in friends_who_owe %}
+            <tr>
+                <td>{{friend.name}}</td>
+                <td>{{friend.amount|stringformat:"+d"|slice:"1:"}}</td>
+            </tr>
+        {% endfor %}
+        </table>
+    </div>
+    
+    <div class="offset2 span4">
+        <div class="table-header success">You owe {{ lent_count }} person(s) {{ lent }}</div>
+        <table class="owe-table table table-hover">
+            <tr class="error">
+                <td>Person</td>
+                <td>Amount</td>    
+            </tr>
+            {% for friend in friends_who_lent %}
+            <tr>
+                <td>{{friend.name}}</td>
+                <td>{{friend.amount|stringformat:"+d"|slice:"1:"}}</td>
+            </tr>
+        {% endfor %}
+        </table>
+    </div>
+</div>
+
+<!-- Add Charge/Debt Buttons -->
+<div class="row">
+    <div class="offset1 span4">
+        <button class="payment-btn btn btn-success btn-large">Add Charge</button>
+    </div>
+    <div class="offset2 span4">
+        <button class="payment-btn btn btn-danger btn-large">Add Debt</button>
+    </div>
+</div>
 
 
+
+
+
+
+
+<!-- DO WE STILL WANT THIS -->
 <input type="radio" name="transactionType" value="us" checked="checked" onclick="javascript:checkMeasuringSystem();"> Group Payments
 
 <input type="radio" name="transactionType" value="metric" onclick="javascript:checkMeasuringSystem();"> Individual Transactions<br><br>
@@ -61,3 +126,5 @@
 
 <div> {{friend.name}} : {{friend.amount}}</div>
 {% endfor %}
+
+{% endblock %}
