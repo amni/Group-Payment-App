@@ -1,10 +1,6 @@
 {% load staticfiles %}
 <link href="{% static "stylesheets/bootstrap.css" %}" rel="stylesheet" type="text/css">
 
-
-
-<p>Logged In As: {{ member.user.username }}</p>
-
 <!-- <p>Looking at the Group Page for: {{ group.name }}</p>
 
 <div> Group Members </div>
@@ -14,39 +10,22 @@
 </div> -->
 
 
-<input type="radio" name="transactionType" value="us" checked="checked" onclick="javascript:checkMeasuringSystem();"> Group Payments
-
-<input type="radio" name="transactionType" value="metric" onclick="javascript:checkMeasuringSystem();"> Individual Transactions<br><br>
-<!-- FORM TO ADD A GROUP MEMBER TO THE GROUP -->
-<form action="/groups/{{ group.id }}/addmember/email/" method="post">
+<form action="/groups/{{ group.id }}/addmember/" method="post">
   {% csrf_token %}
-  <p>Email: <input type="text" name="email"/></p>
-  <p><input type="submit" value="Add Member by Email"/></p>
-</form>
-
-<form action="/groups/{{ group.id }}/addmember/username/" method="post">
-  {% csrf_token %}
-  <p>Username: <input type="text" name="username"/></p>
-  <p><input type="submit" value="Add Member by Username"/></p>
+  <p>Friend: <input type="text" name="friend"/></p>
+  <p><input type="submit" value="Add Friend to Group"/></p>
 </form>
 
 
-<form action="/groups/{{ group.id }}/addtransaction/" method="post">
-         {% csrf_token %}
-         <p>Who Owes Me: <input type="text" name="borrower"</p>  
-         <p>For What: <input type="text" name="description"/></p>
-         <p>Amount: <input type="text" name="amount" pattern="^((\d+)|(\d{1,3})(\,\d{3}|)*)(\.\d{2}|)$"/></p>
+<div> Users in my group: </div>
 
-         <p><input type="submit" value="Add Transaction"/></p>
-</form>
+{% for friend in friends %}
+<div> {{friend.name}}</div>
+{% endfor %}
 
-<form action="/groups/{{ group.id }}/addtransaction/" method="post">
-         {% csrf_token %}
-         <p>I owe: <input type="text" name="borrower"</p>  
-         <p>For What: <input type="text" name="description"/></p>
-         <p>Amount: <input type="text" name="amount" pattern="^((\d+)|(\d{1,3})(\,\d{3}|)*)(\.\d{2}|)$"/></p>
-         <p><input type="submit" value="Add Transaction"/></p>
-</form>
+
+<br>
+
 
 <div> List of the Transactions: </div>
 {% for transaction in transactions %}
@@ -55,19 +34,3 @@
    <div>Amount Paid: {{ transaction.amount }}</div>
    <div>Paid By: {{ transaction.payer.user.username }}</div></p>
 {% endfor %}
-
-<div> Users that owe me: </div>
-
-{% for friend in friends %}
-<div> {{friend.name}} : {{friend.amount}}</div>
-{% endfor %}
-
-
-<!-- FORM TO ADD A TRANSACTION - ASSUMES YOU ARE PAYER -->
-  <form action="/groups/{{ group.id }}/addtransaction/" method="post">
-         {% csrf_token %}
-         <p>Name: <input type="text" name="name"/></p>
-         <p>Description: <input type="text" name="description"/></p>
-         <p>Amount: <input type="text" name="amount" pattern="^((\d+)|(\d{1,3})(\,\d{3}|)*)(\.\d{2}|)$"/></p>
-         <p><input type="submit" value="Add Transaction"/></p>
-    </form>

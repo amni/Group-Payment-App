@@ -8,12 +8,13 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from groups.models import Group
 from members.models import Member, Non_Registered_Member
-from transactions.models import IndividualTransaction, GroupTransaction
+from transactions.models import Transaction
 import pdb
 
 def friend_present(name):
-    if Non_Registered_Member.objects.filter(name=name).count():
-        return True
+    friend=Non_Registered_Member.objects.filter(name=name)
+    if friend.count():
+         return True
     
     return False
 
@@ -31,7 +32,7 @@ def detail(request, group_id):
       group = Group.objects.get(id=group_id)
       member = Member.objects.get(id=request.user.id)
       group_members = Member.objects.filter(groups=Group.objects.get(id=group_id))
-      transactions = GroupTransaction.objects.filter(group=Group.objects.get(id=group_id))
+      transactions = Transaction.objects.filter(group=Group.objects.get(id=group_id))
       friends= Non_Registered_Member.objects.filter(connection=member)
       member_balances={}
       transaction_total= calculateTransactions(transactions, group_members, member_balances)
@@ -73,7 +74,6 @@ def addTransaction(request, group_id):
    amount = '%.2f' % (float(post['amount']))
    date = datetime.datetime.now()
    if not (friend_present(friend_name)):
-      print ("present")
       nonregfriend= Non_Registered_Member(name=friend_name, connection=payer, amount=0)
       nonregfriend.save()
    nonregfriend=Non_Registered_Member.objects.get(name=friend_name, connection=payer)
@@ -85,29 +85,20 @@ def addTransaction(request, group_id):
 
    return detail(request, group_id)
 
-def addMember_email(request, group_id):
+def addMember(request, group_id):
    #Adds user if email corresponds to a user in the database
-   try:
-      post = request.POST
-      email = post ['email']
-      group = Group.objects.get(id=group_id)
-      member= Member.objects.get(user=User.objects.get(email=email))
-      member.groups.add(group)
-   except User.DoesNotExist:
-      pass
+   post = request.POST
+   user= Member.objects.get(user=User.objects.get(id=request.user.id))
+   friend_name= post['friend']
+   group = Group.objects.get(id=group_id)
+   if not (friend_present(friend_name)):
+      nonregfriend= Non_Registered_Member(name=friend_name, connection=user, amount=0)
+      nonregfriend.save()
+   friend=  Non_Registered_Member.objects.get(name=friend_name, connection=user)
+   friend.groups.add(group)
+   friend.save()
    return detail(request, group_id)
 
-def addMember_username(request, group_id):
-   #Adds user if username corresponds to a user in the database
-   try:
-      post = request.POST
-      username = post ['username']
-      group = Group.objects.get(id=group_id)
-      member= Member.objects.get(user=User.objects.get(username=username))
-      member.groups.add(group)
-   except User.DoesNotExist:
-      pass
-   return detail(request, group_id)
 
 def calculateTransactions(transactions, group_members, member_balances):
    #TODO: Rewrite this so that it only iterates through transaction once, instead of once for every member
