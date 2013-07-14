@@ -12,12 +12,18 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from groups.models import Group
 from members.models import Member, Non_Registered_Member
-from transactions.models import IndividualTransaction
+from transactions.models import Transaction
 
 
 
 def friend_present(name):
     if Non_Registered_Member.objects.filter(name=name).count():
+        return True
+    
+    return False
+
+def group_present(name):
+    if Group.objects.filter(name=name).count():
         return True
     
     return False
@@ -28,6 +34,8 @@ def index(request):
    friend_names= [friend.name for friend in friends]
    friends_who_owe= [friend for friend in friends if friend.amount<0]
    friends_who_lent= [friend for friend in friends if friend.amount>0]
+   for group in Group.objects.all():
+      friend_names.append(group.name)
    json_data= simplejson.dumps(friend_names, indent=4)
    print json_data
    context = {'member': member, 'friends_who_owe':friends_who_owe, 'friends_who_lent': friends_who_lent, 'friend_names':json_data}
@@ -56,22 +64,36 @@ def addgroup(request):
 # TODO: Try/Catch block?
 def addTransaction(request, member_id, loaning):
    post = request.POST
-   friend_name = post['borrower']
+   name = post['borrower']
    description = post['description']
    payer = Member.objects.get(user=User.objects.get(id=request.user.id))
    amount = '%.2f' % (float(post['amount']))
    date = datetime.datetime.now()
-   if not (friend_present(friend_name)):
-      nonregfriend= Non_Registered_Member(name=friend_name, connection=payer, amount=0)
+   if (group_present(name)):
+      group=Group.objects.filter(name=name)[0]
+      addGroupTransaction(group, loaning, amount)
+      transaction = Transaction(description=description, amount=amount, group=group, date=date)
+      transaction.save()
+      return index(request)
+   if not (friend_present(name)):
+      nonregfriend= Non_Registered_Member(name=name, connection=payer, amount=0)
       nonregfriend.save()
-   friend=Non_Registered_Member.objects.get(name=friend_name, connection=payer)
+   friend=Non_Registered_Member.objects.get(name=name, connection=payer)
+   calculateFriendBalance(friend, loaning, amount)
+   transaction = Transaction(description=description,
+      amount=amount, friend=friend, date=date)
+   transaction.save()
+
+   return index(request)
+
+def addGroupTransaction(group, loaning, amount):
+   for friend in Non_Registered_Member.objects.filter(groups=group):
+      calculateFriendBalance(friend, loaning, float(amount)/Non_Registered_Member.objects.count())
+   
+def calculateFriendBalance(friend, loaning, amount):
    if (loaning=='1'):
       friend.amount=float(friend.amount)- float(amount) 
    else: 
-      friend.amount=float(friend.amount)+float(amount)  
+      friend.amount=float(friend.amount)+float(amount)
    friend.save()
-   transaction = IndividualTransaction(name= friend.name, description=description,
-      amount=amount, date=date)
-   transaction.save()
-
-   return detail(request, member_id)
+  

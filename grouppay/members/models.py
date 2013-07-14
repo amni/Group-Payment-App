@@ -15,8 +15,6 @@ class Member(models.Model):
 @receiver(user_registered)
 def createMember(sender, user, request, **kwargs):
    member= Member(user=user)
-   print (member)
-   print (member.user.id)
    member.save()
 
 
@@ -24,3 +22,5 @@ class Non_Registered_Member(models.Model):
    name = models.CharField(max_length=100)
    amount=models.DecimalField(max_digits=8, decimal_places=2)
    connection=models.ForeignKey(Member)
+   groups = models.ManyToManyField(Group)
+
