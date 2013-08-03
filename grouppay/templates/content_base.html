@@ -1,0 +1,13 @@
+{% include "base.html" %}
+{% load staticfiles %} 
+
+<head>
+	<title>{% block title %}{% endblock %}</title>
+	<link href="{% static "stylesheets/content.css" %}" rel="stylesheet" type="text/css">
+</head>
+
+<body class="container">
+	<div class="real-content">
+		{% block content %}	{% endblock %}
+	</div>
+</body>

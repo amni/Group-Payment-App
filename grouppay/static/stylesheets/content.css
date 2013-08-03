@@ -1,0 +1,46 @@
+/* General Styling */
+div.real-content {
+	height: 100%;
+	background-color: #445859;
+	margin-top: 40px;
+	color: #F1F2E4;
+}
+
+/* Member Page Styling */
+.balance {
+	font-size: 80px;
+	text-align: center;
+	padding-top: 50px;
+}
+
+.overall {
+	text-align: center;
+	padding-top: 10px;
+	font-size: 25px;
+}
+
+.negative {
+	color: red;
+}
+
+.table-header {
+	padding-top: 15px;
+	font-size: 22px;
+		text-align: center;
+}
+
+.owe-table td {
+	text-align: center;
+}
+
+.owe-table {
+	background-color: #F1F2E4;
+	margin-top: 7px;
+}
+
+.payment-btn {
+	width: 46%;
+	margin: auto;
+	display: block;
+}
+/* Group Page Styling */

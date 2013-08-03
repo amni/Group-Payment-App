@@ -1,0 +1,31 @@
+{% load staticfiles %}
+
+<head>
+
+	<meta name="authors" content="Alan Ni, alanni.me, amn22@duke.edu, Matthew Ebeweber, mattebeweber.com, mattebeweber@utexas.edu">
+	<link href="{% static "stylesheets/bootstrap.css" %}" rel="stylesheet" type="text/css">
+	<link href="{% static "stylesheets/base.css" %}" rel="stylesheet" type="text/css">
+
+	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+	<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+
+</head>
+<div class="navbar navbar-inverse navbar-fixed-top">
+   <div class="navbar-inner">
+   	<div class="container">
+         <a class="brand" href="/">Payper.io</a>
+         <!-- Add username dropdown with option to logout, or login button -->
+      {% if user.is_authenticated %}
+      <div style="display: inline-block;" class="pull-right">
+     	 <a class="brand" href="/members">My Profile</a> 
+         <a class="brand" href="/accounts/logout">Logout</a>
+      </div>
+      {%else %}
+      <div style="display: inline-block;" class="pull-right">
+     	 <a class="brand" href="/accounts/login">Sign In</a> 
+         <a class="brand" href="/accounts/register">Register</a>
+      </div>
+      {% endif %}
+    </div>
+   </div>
+</div>

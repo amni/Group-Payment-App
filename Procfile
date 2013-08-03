@@ -1,0 +1,1 @@
+web: python grouppay/manage.py runserver
