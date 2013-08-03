@@ -1,0 +1,14 @@
+.footer {
+   background-color: #FEFFF0;
+   position: absolute;
+   bottom: 0;
+   width: 100%;
+   height: 75px;
+   text-align: center;
+}
+
+.name {
+   margin-bottom: 0px;
+   margin-top: 10px;
+   color: #445859;
+}

@@ -1,0 +1,49 @@
+{% extends "registration/base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content_title %} Log In {% endblock %}
+{% block content %}
+
+{% if form.errors %}
+{% endif %}
+
+
+<form method="post" action="?next={{ next|default:"/members" }}">{% csrf_token %}
+<table class="reg-table">
+      <tr>
+        <td></td>
+        <td>
+          {% if form.username.errors %}
+          <div class="little-warn alert alert-error">{{ form.username.errors|join:", " }}</div>{% endif %}
+      </tr>
+      <td>
+      	  <label for="id_username">Username:</label>
+      </td>
+      <td>{{ form.username }}
+      </td>
+      <tr>
+        <td></td>
+        <td>
+          {% if form.password.errors %}
+          <div class="little-warn alert alert-error">{{ form.password.errors|join:", " }}</div>{% endif %}
+      </tr>
+      <td>
+      	  <label for="id_username">Password:</label>
+      </td>
+      <td>{{ form.password}}
+      </td>
+      <tr>
+        <td></td>
+        <td>
+          <p class="submit"><input class="lead btn btn-info" type="submit" value="Log In"></p>
+        </td>
+      </tr>
+  </table>
+</form>
+{% endblock %}
+
+{% block content-related %}
+<p>If you don't have an account, you can <a href="/accounts/register/">sign
+up</a> for one.
+{% endblock %}

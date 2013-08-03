@@ -1,0 +1,36 @@
+{% load staticfiles %}
+<link href="{% static "stylesheets/bootstrap.css" %}" rel="stylesheet" type="text/css">
+
+<!-- <p>Looking at the Group Page for: {{ group.name }}</p>
+
+<div> Group Members </div>
+{% for member, balance in member_balances.items %}
+	<div> {{ member.user.username }}'s balance: ${{balance}} </div>
+{% endfor %}
+</div> -->
+
+
+<form action="/groups/{{ group.id }}/addmember/" method="post">
+  {% csrf_token %}
+  <p>Friend: <input type="text" name="friend"/></p>
+  <p><input type="submit" value="Add Friend to Group"/></p>
+</form>
+
+
+<div> Users in my group: </div>
+
+{% for friend in friends %}
+<div> {{friend.name}}</div>
+{% endfor %}
+
+
+<br>
+
+
+<div> List of the Transactions: </div>
+{% for transaction in transactions %}
+   <p><div>Name: {{ transaction.name }}</div>
+   <div>Description: {{ transaction.description }}</div>
+   <div>Amount Paid: {{ transaction.amount }}</div>
+   <div>Paid By: {{ transaction.payer.user.username }}</div></p>
+{% endfor %}
