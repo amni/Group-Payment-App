@@ -102,6 +102,6 @@ def calculateTransactions(transactions, group_members, member_balances):
    #TODO: Rewrite this so that it only iterates through transaction once, instead of once for every member
    total_transactions= sum([transaction.amount for transaction in transactions])
    for member in group_members:
-      member_balances[member]= total_transactions/len(group_members)-sum([transaction.amount for transaction in transactions if transaction.payer==member])
+      member_balances[member]= total_transactions/len(group_members)-sum([transaction.amount for transaction in transactions if transaction.friend==member])
    return total_transactions
 

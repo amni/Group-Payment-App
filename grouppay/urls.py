@@ -17,6 +17,8 @@ urlpatterns = patterns('',
     # Uncomment the admin/doc line below to enable admin documentation:
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     (r'^accounts/', include('registration.backends.default.urls')),
+        url(r'', include('social_auth.urls')),
+
     # Examples:
     # url(r'^$', 'grouppay.views.home', name='home'),
     # url(r'^grouppay/', include('grouppay.foo.urls')),

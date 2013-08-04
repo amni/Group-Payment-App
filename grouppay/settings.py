@@ -22,6 +22,13 @@ ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
 
+FACEBOOK_APP_ID='548806241823849'
+FACEBOOK_API_SECRET='ccbb4e4ac3fb0de9eaa6ceb259eaff20'
+
+FACEBOOK_EXTENDED_PERMISSIONS = ['email']
+FACEBOOK_PROFILE_EXTRA_PARAMS = {'locale': 'ru_RU'}
+
+
 MANAGERS = ADMINS
 
 DATABASES = {
@@ -112,6 +119,12 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
+AUTHENTICATION_BACKENDS = (
+    'social_auth.backends.facebook.FacebookBackend',
+    'django.contrib.auth.backends.ModelBackend',
+
+)
+
 ROOT_URLCONF = 'grouppay.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
@@ -145,6 +158,7 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.humanize',
+    'social_auth',
 )
 
 # A sample logging configuration. The only tangible logging
